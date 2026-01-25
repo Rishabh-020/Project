@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <h1 className='flex-10 bg-amber-500 text-white placeholder-blue-400  h-52'>This is it</h1>
+      <p>checking</p>
     </>
   )
 }
