@@ -8,9 +8,20 @@ function SignUp() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Sign Up:', formData)
+    const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+    })
+    const data = await res.json()
+    console.log(data)
+    if (res.ok) {
+        alert('Sign up successful!')
+    } else {
+        alert(data.error || 'Sign up failed')
+    }
   }
 
   return (

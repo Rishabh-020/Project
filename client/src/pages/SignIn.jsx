@@ -9,15 +9,20 @@ function SignIn() {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const res = await fetch('/api/auth/signin', {
+  e.preventDefault()
+  const res = await fetch('/api/auth/signin', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData),
   })
   const data = await res.json()
   console.log(data)
+  if (res.ok) {
+    alert('Sign in successful!')
+  } else {
+    alert(data.error || 'Sign in failed')
   }
+}
 
   return (
     <div className="flex w-full flex-1 items-center justify-center">
