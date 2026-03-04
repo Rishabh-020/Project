@@ -2,11 +2,9 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DATA_FILE = path.join(__dirname, "..", "..", "data", "users.json");
-
 
 function ensureDataFile() {
   const dir = path.dirname(DATA_FILE);
@@ -29,17 +27,13 @@ function writeUsers(users) {
 // POST /api/auth/signup
 export const signup = (req, res) => {
   const { name, email, password } = req.body;
-
   if (!name || !email || !password) {
     return res.status(400).json({ error: "All fields are required" });
   }
-
   const users = readUsers();
-
   if (users.find((u) => u.email === email)) {
     return res.status(409).json({ error: "Email already registered" });
   }
-
   const newUser = {
     id: Date.now(),
     name,
@@ -47,10 +41,8 @@ export const signup = (req, res) => {
     password,
     createdAt: new Date().toISOString(),
   };
-
   users.push(newUser);
   writeUsers(users);
-
   res.status(201).json({
     message: "User created successfully",
     user: { id: newUser.id, name, email },
@@ -60,18 +52,14 @@ export const signup = (req, res) => {
 // POST /api/auth/signin
 export const signin = (req, res) => {
   const { email, password } = req.body;
-
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
   }
-
   const users = readUsers();
   const user = users.find((u) => u.email === email && u.password === password);
-
   if (!user) {
     return res.status(401).json({ error: "Invalid email or password" });
   }
-
   res.json({
     message: "Sign in successful",
     user: { id: user.id, name: user.name, email: user.email },
